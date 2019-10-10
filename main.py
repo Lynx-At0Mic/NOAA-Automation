@@ -6,9 +6,9 @@ def make_time(time):
     return formatted_time
 
 
-# next_pass = nextPass.get_pass_info(print_info=False)
+next_pass = nextPass.get_pass_info(print_info=False)
 #
-# print(next_pass.name, next_pass.freq, make_time(next_pass.aos), make_time(next_pass.max_e), make_time(next_pass.los))
+print(next_pass.name, next_pass.freq, make_time(next_pass.aos), make_time(next_pass.max_e), make_time(next_pass.los))
 
 def record():
     # do something here
