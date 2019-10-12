@@ -24,12 +24,13 @@ with open('config.json') as f:  # open config file
 
 # satellite object
 class Satellite:
-    def __init__(self, name, aos, max_e, los, delta_t, freq=0):
+    def __init__(self, name, aos, max_e, los, delta_t, pass_length, freq=0):
         self.name = name
         self.aos = aos
         self.max_e = max_e
         self.los = los
         self.delta_t = delta_t
+        self.pass_length = pass_length
         self.freq = freq
 
 
@@ -63,14 +64,16 @@ def get_passes():
     return sat_name_temp  # return name of next pass
 
 
-def calculate_pass(name):  # calculates times of next pass and creates a Satellite object to store them
+def calculate_pass_info(name):  # calculates times of next pass and creates a Satellite object to store them
     now = datetime.utcnow()
     current_sat = Orbital(name, tle_file=path_to_tle)
     passes = current_sat.get_next_passes(now, search_time, lon, lat, alt, tol=1, horizon=horizon)
     sat_pass = passes[0][0]
     pass_timedelta = sat_pass - now
-    seconds = pass_timedelta.total_seconds()
-    sat = Satellite(name, passes[0][0], passes[0][2], passes[0][1], seconds, sats_freq[sats_name.index(name)])
+    seconds_until = pass_timedelta.total_seconds()
+    passduration = int((passes[0][1]- passes[0][0]).total_seconds())
+    sat = Satellite(name, passes[0][0], passes[0][2], passes[0][1]
+                    , seconds_until, passduration, sats_freq[sats_name.index(name)])
     return sat  # returns sat object
 
 
@@ -81,15 +84,10 @@ def print_pass_time(satinfo):  # formats pass time and displays all information 
     mins, remainder = divmod(remainder, 60)
     sec, remainder = divmod(remainder, 1)
 
-    print("{} pass in {} Days, {} Hours, {} Minutes, {} Seconds at {} UTC on {}MHz.".format(satinfo.name, int(day),
-                                                                                            int(hrs), int(mins),
-                                                                                            int(sec),
-                                                                                            (str(satinfo.aos.hour)
-                                                                                             + ":" +
-                                                                                             str(satinfo.aos.minute)
-                                                                                             + ":" +
-                                                                                             str(satinfo.aos.second))
-                                                                                            , satinfo.freq))
+    print("{} pass in {} Days, {} Hours, {} Minutes, {} Seconds at {} UTC on {}MHz. Duration is {} seconds."
+          .format(satinfo.name, int(day), int(hrs), int(mins), int(sec),
+                  (str(satinfo.aos.hour) + ":" + str(satinfo.aos.minute) + ":" + str(satinfo.aos.second)),
+                  str(satinfo.freq), str(satinfo.pass_length)))
 
     print("\n  AOS       MAX-E       LOS")
     print(str(satinfo.aos.hour) + ":" + str(satinfo.aos.minute) + ":" + str(satinfo.aos.second) + "    " +
@@ -99,7 +97,7 @@ def print_pass_time(satinfo):  # formats pass time and displays all information 
 
 def get_pass_info(print_info=False):  # function to call when using this file
     next_sat = get_passes()
-    pass_sat = calculate_pass(next_sat)
+    pass_sat = calculate_pass_info(next_sat)
     if print_info:
         print_pass_time(pass_sat)
     return pass_sat
@@ -108,6 +106,6 @@ def get_pass_info(print_info=False):  # function to call when using this file
 # stand alone script
 # while True:
 #     next_sat = get_passes()
-#     pass_sat = calculate_pass(next_sat)
+#     pass_sat = calculate_pass_info(next_sat)
 #     print_pass_time(pass_sat)
 #     input()
