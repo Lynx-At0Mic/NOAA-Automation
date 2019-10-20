@@ -6,7 +6,7 @@ Note this project is made for python 3.7+ and most likely will not run on older 
 First install python libraries with pip.
 
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 Next install rtl-sdr and sox.
 ```
