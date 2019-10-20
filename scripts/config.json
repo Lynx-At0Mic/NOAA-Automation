@@ -1,0 +1,25 @@
+{
+  "Ground station": {
+    "Latitude": 0,
+    "Longitude": 0,
+    "Altitude": 20,
+    "Horizon": 20
+  },
+  "Settings": {
+    "search_time": 24
+  },
+  "Satellites": {
+    "NOAA15": {
+      "name": "NOAA 15 [B]",
+      "freq": 137.62
+    },
+    "NOAA18": {
+      "name": "NOAA 18 [B]",
+      "freq": 137.9125
+    },
+    "NOAA19": {
+      "name": "NOAA 19 [+]",
+      "freq": 137.1
+    }
+  }
+}

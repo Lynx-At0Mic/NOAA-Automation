@@ -1,4 +1,4 @@
-import passInfo as nextPass
+from scripts import passInfo as nextPass
 import os
 from time import sleep
 from pyorbital.orbital import Orbital
@@ -26,9 +26,8 @@ def get_info():
 def record(timeout, freq, name):  # record pass
     global filename
     filename = "{} {}".format(name, str(datetime.utcnow()))  # format file name with name of satellite and time/date
-    os.system("cd recordings")  # set current directory to recordings
-    os.system("timeout --preserve-status {} rtl_fm -M fm -s 40k -f {}M -r 32k -g 30 "
-              "| sox -t raw -e signed-integer -c 1 -b 16 -r 32k - \"{}.wav\" &"
+    os.system("cd .. ; cd recordings ; timeout --preserve-status {} rtl_fm -M fm -s 40k -f {}M -r 32k -g 30 "
+              "| sox -v 0.8 -t raw -e signed-integer -c 1 -b 16 -r 32k - \"{}.wav\" &"
               .format(str(timeout), str(freq), filename))  # use rtl_fm to record sdr
 
 
@@ -39,12 +38,6 @@ def serial_az_el(name, stop_time=(datetime.utcnow())):  # sends data over serial
         now = datetime.utcnow()
         print(satellite.get_observer_look(now, nextPass.lon, nextPass.lat, nextPass.alt))  # print (az, el)
         sleep(2)  # wait 2 seconds
-
-
-def move():
-    global filename
-    os.system("mv \"{}\" recordings/")
-
 
 
 while True:
