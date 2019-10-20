@@ -40,8 +40,24 @@ The horizon should be set to the angle of the horizon from your ground station i
 Search time indicates the length time, in hours, into the future passes should be predicted. I recommend leaving this as default.
 
 ## Usage
-Run `main.py`
+ Run `main.py`
 ```
 python main.py
 ```
 The script will predict future passes and then wait for them. The script will display information about the next pass such as time of aos, maximum elevation and los.
+
+(Optional) Run `main.py` in a ssh session with screen. 
+
+It may be necessary to run the script in a ssh session if you are using something like a raspberry pi. To log out of a ssh session without ending the script, you can use screen.
+```
+screen
+python main.py
+```
+This will run the script in a screen window which we can detach from the ssh window by doing `CTRL+A` followed by pressing `D`
+This will detach the script from the ssh session allowing you to end the session whilst leaving the script running.
+
+To reattach the screen window, log back in with ssh and type:
+```
+screen -r
+```
+
