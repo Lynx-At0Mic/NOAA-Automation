@@ -1,4 +1,4 @@
-from scripts import passInfo as nextPass
+import passInfo as nextPass
 import os
 from time import sleep
 from pyorbital.orbital import Orbital
