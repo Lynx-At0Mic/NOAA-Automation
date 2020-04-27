@@ -1,5 +1,5 @@
 # NOAA-Automation
-This is a small bit of code to predict satellite passes and record NOAA ATP signals automatically.
+This is a small bit of code to predict satellite passes and record NOAA APT signals automatically.
 ## Installation and setup
 Note this project is made for python 3.7+ and most likely will not run on older versions
 
@@ -19,7 +19,7 @@ sudo apt-get install screen
 Next you will need to update the tle files. For NOAA satellites it's recommended you do this at least once a week.
 ```
 cd tle
-curl https://www.celestrak.com/NORAD/elements/noaa.txt > tle.txt
+curl https://www.celestrak.com/NORAD/elements/noaa.txt >> tle.txt
 ```
 Finally you will need to configure your ground station in `config.json`
 ```
